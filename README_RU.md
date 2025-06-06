@@ -8,12 +8,12 @@
   </a>
 </p>
 
-<img src="source/ChatGPTImage.png" alt="Kate Artivian" align="right" width="260" style="margin-left: 24px; border-radius: 14px;" />
-
 **Botyan** — это мультиплатформенный бот для Telegram и Discord, воплощающий образ Кейт Артивиан (*Kate Artivian*).  
 Бот создан для общения, шуток, игровых механик, генерации демотиваторов и развлечений в чатах.
 
 ## Что умеет Kate Artivian
+
+<img src="source/ChatGPTImage.png" alt="Kate Artivian" align="right" width="350" style="margin-left: 24px; border-radius: 14px;" />
 
 - **Общение**  
   Просто напиши боту или ответь на её сообщение — она поддержит беседу. Иногда Kate сама вмешивается в чат с репликами, чтобы добавить живости в разговор.
