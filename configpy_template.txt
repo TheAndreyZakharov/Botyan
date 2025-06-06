@@ -1,0 +1,52 @@
+BOT_TOKEN = "your_token"
+
+TELEGRAM_TOKEN = "your_token"
+
+ALLOWED_DS_GUILD_ID = your_server_id
+ALLOWED_DS_USER_ID = [
+    your_profile_id,
+    your_profile2_id
+]
+
+ALLOWED_TG_CHAT_IDS = [
+    your_chat1_id,
+    -your_chat2_id,
+    -your_chat3_id
+]
+ALLOWED_TG_USER_ID = your_profile_id
+
+
+OPENROUTER_API_KEYS = [
+    "sk-or-v1-1",
+    "sk-or-v1-2",
+    "sk-or-v1-3",
+    "sk-or-v1-4",
+    "sk-or-v1-5"
+]
+
+OPENROUTER_MODEL = "model"
+
+BOT_PERSONA = (
+    "prompt"
+)
+
+BOT_AUTO_PROMPT = (
+    "{persona}\n\n"
+    "Контекст:\n\n"
+    "{history}\n\n"
+    "prompt"
+)
+
+BOT_INTERJECT_TEMPLATE = (
+    "{persona}\n\n"
+    "Контекст:\n\n"
+    "{history}\n\n"
+    "prompt"
+)
+
+DEMOTIVATOR_PROMPT_TEMPLATE = (
+    "{persona}\n\n"
+    "Вот последние сообщения из беседы:\n\n"
+    "{history}\n\n"
+    "prompt"
+)

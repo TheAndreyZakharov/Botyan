@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.db
+*.ttf
+*.json
+*.log
+*.pid
+feedbacks.json
+config.py
+.DS_Store
+
