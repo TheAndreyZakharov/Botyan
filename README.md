@@ -6,12 +6,13 @@
   <a href="https://github.com/TheAndreyZakharov/Botyan/blob/main/README_RU.md">
     <img src="https://img.shields.io/badge/README-Русский-blue">
   </a>
-</p><img src="source/ChatGPTImage.png" alt="Kate Artivian" align="right" width="260" style="margin-left: 24px; border-radius: 14px;" />
 
 **Botyan** is a cross-platform bot for Telegram and Discord, embodying the persona of Kate Artivian (*Kate Artivian*).  
 This bot was created for chatting, jokes, mini-games, demotivator generation, and fun in your chats.
 
 ## What Kate Artivian Can Do
+
+</p><img src="source/ChatGPTImage.png" alt="Kate Artivian" align="right" width="350" style="margin-left: 24px; border-radius: 14px;" />
 
 - **Chatting**  
   Just message the bot or reply to her message — she’ll keep the conversation going. Sometimes, Kate herself jumps into the chat to add some life and humor.
