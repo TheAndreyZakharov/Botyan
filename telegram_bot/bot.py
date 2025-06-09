@@ -18,9 +18,16 @@ from telegram_bot.core.image_gen import generate_caption_from_chat, create_demot
 from telegram_bot.core.help import get_help_embed
 from telegram_bot.core.sticker_memory import add_sticker_to_memory, get_random_sticker
 from telegram_bot.core.videonote_fx import process_videonote_fx
+from telegram_bot.core.send_photo import get_random_createp_image
+import time
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.types import BufferedInputFile
+import re
+import html
+import requests 
+from aiogram import Router
+
 
 message_counter = 0  
 
@@ -31,6 +38,16 @@ AVAILABLE_REACTIONS = [
     "😜", "😱", "🥲", "🤗", "😘", "🤬", "😭", "😏", "🥺", "😅", "😆", "😈", "💋",
     "🍒", "🍌", "🍓", "🥒", "🍑", "🍆"
 ]
+
+def convert_markdown_to_html(md):
+    text = html.escape(md)
+    text = re.sub(r'\*\*([^\*]+?)\*\*', r'<b>\1</b>', text)
+    text = re.sub(r'(?<!\*)\*([^\*]+?)\*(?!\*)', r'<i>\1</i>', text)
+    text = re.sub(r'`([^`]+?)`', r'<code>\1</code>', text)
+    text = re.sub(r'```([\s\S]+?)```', r'<pre>\1</pre>', text)
+    text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', text)
+    return text
+
 
 bot = Bot(token=TELEGRAM_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher()
@@ -80,6 +97,9 @@ async def add_reaction(message: Message):
         await message.react(ReactionTypeEmoji(emoji=emoji))
     except Exception:
         pass
+
+router = Router()
+
 
 # DEMOTIVATOR
 async def handle_k_demo(message: Message, file_id: str = None):
@@ -143,7 +163,8 @@ async def maybe_auto_interject(message: Message):
     from config import BOT_PERSONA, BOT_AUTO_PROMPT
     prompt = BOT_AUTO_PROMPT.format(persona=BOT_PERSONA, history=history_text)
     reply = await generate_reply(prompt)
-    reply_msg = await message.answer(reply or "...")
+    html_reply = convert_markdown_to_html(reply or "...")
+    reply_msg = await message.answer(html_reply, parse_mode=ParseMode.HTML)
     save_message(reply_msg)
 
 @dp.message(F.sticker)
@@ -160,105 +181,6 @@ async def maybe_send_random_sticker(chat_id):
         if file_id:
             reply_msg = await bot.send_sticker(chat_id, file_id)
             save_message(reply_msg)
-
-@dp.message(Command(commands=["kmenu", "kbal", "kdep", "kdemo", "kcontrast", "kbw", "klimit", "krus"]))
-async def handle_all_slash_commands(message: Message):
-    cmd = message.text.split()[0][1:].lower()
-    args = message.text.split()[1:]
-
-    if not is_tg_allowed(message):
-        if await handle_not_allowed(message): return
-        return
-
-    if cmd == "kmenu":
-        reply_msg = await message.answer(**get_help_embed())
-        save_message(reply_msg)
-    elif cmd == "kbal":
-        ensure_user_exists(message.from_user.id)
-        bal = get_balance(message.from_user.id)
-        reply_msg = await message.reply(f"💰 {message.from_user.mention_html()}, у тебя на счету <b>{bal}</b> монет.")
-        save_message(reply_msg)
-    elif cmd == "kdep":
-        if not args:
-            reply_msg = await message.reply("❗ Укажи сумму ставки, например <code>/kdep 500</code>")
-            save_message(reply_msg)
-            return
-        try:
-            bet = int(args[0])
-        except Exception:
-            reply_msg = await message.reply("❗ Некорректная ставка. Введи число, например <code>/kdep 100</code>")
-            save_message(reply_msg)
-            return
-
-        SLOTS = [("🍒", 2), ("🍋", 3), ("🍇", 4), ("🍀", 5), ("💎", 10)]
-        balance = get_balance(message.from_user.id)
-        if bet > balance:
-            reply_msg = await message.reply("❌ У тебя недостаточно монет.")
-            save_message(reply_msg)
-            return
-        if bet <= 0:
-            reply_msg = await message.reply("❗ Ставка должна быть положительной.")
-            save_message(reply_msg)
-            return
-
-        msg = await message.reply("🎰 Вращаем барабаны...")
-        save_message(msg)
-        previous_text = ""
-        for _ in range(4):
-            rnd = [random.choice(SLOTS)[0] for _ in range(3)]
-            new_text = " ".join(rnd)
-            if new_text != previous_text:
-                await msg.edit_text(new_text)
-                previous_text = new_text
-            await asyncio.sleep(0.13)
-
-        final = [random.choice(SLOTS) for _ in range(3)]
-        symbols = [item[0] for item in final]
-        await msg.edit_text(" ".join(symbols))
-
-        if symbols[0] == symbols[1] == symbols[2]:
-            coef = final[0][1]
-            win = bet * coef
-            update_balance(message.from_user.id, win)
-            text = f"🎉 {message.from_user.mention_html()}, ты выиграл <b>{win}</b> монет! (x{coef})"
-        else:
-            update_balance(message.from_user.id, -bet)
-            text = f"😢 {message.from_user.mention_html()}, не повезло. Потеряно <b>{bet}</b> монет."
-        await asyncio.sleep(0.5)
-        final_msg = await msg.edit_text(f"{' '.join(symbols)}\n\n{text}")
-        save_message(final_msg)
-
-    elif cmd == "kdemo":
-        await handle_k_demo(message)
-    elif cmd == "kcontrast":
-        await process_videonote_fx(bot, message, effect="contrast")
-    elif cmd == "kbw":
-        await process_videonote_fx(bot, message, effect="bw")
-    elif cmd == "krus":
-        await process_videonote_fx(bot, message, effect="rus")
-    elif cmd == "klimit":
-        global current_key_index
-        try:
-            import requests
-            key = OPENROUTER_API_KEYS[current_key_index]
-            headers = {"Authorization": f"Bearer {key}"}
-            response = requests.get("https://openrouter.ai/api/v1/auth/key", headers=headers)
-            if response.ok:
-                data = response.json()["data"]
-                reply_msg = await message.reply(
-                    f"🔑 Лимит: {data['limit'] or '∞'} | Использовано: {data['usage']}\n"
-                    f"Тип ключа: {'Бесплатный' if data['is_free_tier'] else 'Платный'}"
-                )
-                save_message(reply_msg)
-            else:
-                reply_msg = await message.reply(f"⚠️ Ошибка получения лимита: {response.status_code}")
-                save_message(reply_msg)
-        except Exception as e:
-            reply_msg = await message.reply(f"❌ Ошибка: {e}")
-            save_message(reply_msg)
-    else:
-        reply_msg = await message.reply("Неизвестная команда. Используй /kmenu для списка.")
-        save_message(reply_msg)
 
 # Обычные текстовые команды и обращения
 @dp.message(F.text)
@@ -289,7 +211,8 @@ async def custom_command_handler(message: Message):
             reply = await generate_reply(context_prompt)
         else:
             reply = await generate_reply(prompt)
-        reply_msg = await message.reply(reply or "⚠️ Пусто")
+        html_reply = convert_markdown_to_html(reply or "⚠️ Пусто")
+        reply_msg = await message.reply(html_reply, parse_mode=ParseMode.HTML)
         save_message(reply_msg)
         await add_reaction(reply_msg)
         return
@@ -310,6 +233,36 @@ async def custom_command_handler(message: Message):
     if cmd == "rus":
         await process_videonote_fx(bot, message, effect="rus")
         return
+
+    if cmd == "pic":
+        import httpx
+        import urllib3
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+        try:
+            img_url, caption = get_random_createp_image()
+
+            # Попытка загрузки картинки с 3 повторами
+            for attempt in range(3):
+                try:
+                    with httpx.Client(http2=True, verify=False, timeout=10) as client:
+                        response = client.get(img_url, headers={"User-Agent": "Mozilla/5.0"})
+                        img_bytes = response.content
+                    break
+                except Exception as e:
+                    if attempt == 2:
+                        raise e
+                    time.sleep(1)
+
+            photo_input = BufferedInputFile(img_bytes, filename="createp.jpg")
+            reply_msg = await message.reply_photo(photo_input, caption=caption)
+            save_message(reply_msg)
+
+        except Exception as e:
+            reply_msg = await message.reply(f"⚠️ Не удалось получить картинку: {e}")
+            save_message(reply_msg)
+        return
+
 
     if cmd == "dep":
         if not args:
@@ -380,7 +333,8 @@ async def custom_command_handler(message: Message):
 
     if cmd == "test":
         reply = await generate_reply("Привет! Как дела?")
-        reply_msg = await message.reply(reply or "⚠️ Пусто")
+        html_reply = convert_markdown_to_html(reply or "⚠️ Пусто")
+        reply_msg = await message.reply(html_reply, parse_mode=ParseMode.HTML)
         save_message(reply_msg)
         await add_reaction(reply_msg)
         return
@@ -388,7 +342,6 @@ async def custom_command_handler(message: Message):
     if cmd == "limit":
         global current_key_index
         try:
-            import requests
             key = OPENROUTER_API_KEYS[current_key_index]
             headers = {"Authorization": f"Bearer {key}"}
             response = requests.get("https://openrouter.ai/api/v1/auth/key", headers=headers)
@@ -433,7 +386,6 @@ async def generate_reply(prompt: str) -> str:
             ]
         }
         try:
-            import requests
             response = requests.post(
                 "https://openrouter.ai/api/v1/chat/completions",
                 headers=headers,
@@ -469,5 +421,6 @@ async def generate_reply(prompt: str) -> str:
 
 async def start_telegram_bot():
     me = await bot.get_me()
+    dp.include_router(router)
     print(f"✅ Бот @{me.username} запущен!")
-    await dp.start_polling(bot)
+    await dp.start_polling(bot, timeout=60)
