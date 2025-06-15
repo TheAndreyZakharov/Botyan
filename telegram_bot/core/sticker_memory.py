@@ -1,31 +1,9 @@
 import json
 import os
 import random
+from config import STANDARD_SETS
 
 STICKER_MEM_FILE = "data/sticker_memory.json"
-
-# Список дефолт стикерпаков — set_name (или URL)
-STANDARD_SETS = [
-    "arsenmarkaryanbyhonexbaby_by_fStikBot",
-    "GOIDA_LUTAYA",
-    "g3r0in4ik",
-    "randomsvyni3_by_fStikBot",
-    "Animefeet",
-    "BlogershiTGsy4ki",
-    "kettymilaffka",
-    "HANGSEED_Pepe",
-    "NaborBelochka2",
-    "BreadsCats",
-    "eggoiyiz_by_stickrubot",
-    "odno_ru_k",
-    "seventvstuff_by_fStikBot",
-    "Yebuchiy_VK",
-    "buzovatrans_by_fStikBot",
-    "bananafoncrushminion",
-    "sticks_bosinn_by_MoiStikiBot",
-    "kyni_lover2004",
-    "tytvsechannel2"
-]
 
 def load_sticker_memory():
     if os.path.exists(STICKER_MEM_FILE):
