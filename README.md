@@ -12,25 +12,31 @@ This bot was created for chatting, jokes, mini-games, demotivator generation, an
 
 ## What Kate Artivian Can Do
 
-</p><img src="source/ChatGPTImage.png" alt="Kate Artivian" align="right" width="350" style="margin-left: 24px; border-radius: 14px;" />
+<img src="source/ChatGPTImage.png" alt="Kate Artivian" align="right" width="350" style="margin-left: 24px; border-radius: 14px;" />
 
-- **Chatting**  
-  Just message the bot or reply to her message — she’ll keep the conversation going. Sometimes, Kate herself jumps into the chat to add some life and humor.
+- **Conversation**  
+  Engages in dialogue, replies to messages, and sometimes joins the chat on her own.
 
-- **Slots**  
-  A built-in mini-game with virtual currency and a slot machine. Check your balance, place bets — and try your luck!
+- **Slots and Balance**  
+  Mini-game with virtual currency: check your balance and play slots.
 
 - **Demotivators**  
-  Generate demotivators from pictures: attach an image or use a special command, and the bot will even pick a random picture from chat history.
+  Generates demotivators from attached or previously shared images in the chat.
 
-- **Video Effects**  
-  Send a video-note (circle video), and Kate will apply a filter or effect by your command.
+- **Photo**  
+  Sends a random photo from a source on command.
+
+- **Telegram Video Note Effects**  
+  Adds filters and effects to video notes (circles) in Telegram.
 
 - **Automatic Messages**  
-  From time to time, the bot will write something in the chat by itself.
+  Periodically sends messages to the chat on her own.
 
-- **Menu & Tips**  
-  You can get a list of commands at any time.
+- **Menu and Hints**  
+  Shows a list of available commands and explains features.
+
+- **Limits and Key Status**  
+  Displays API key limits and their status.
 
 ---
 
@@ -40,6 +46,20 @@ The bot works both in **Telegram** and **Discord** — interfaces and commands a
 
 - **In Telegram:** all commands start with the letter `k` (for example, `k menu`, `k bal`, `k demo`, etc.).
 - **In Discord:** use the familiar `!` prefix (for example, `!menu`, `!balance`, `!demotivator`).
+
+---
+
+## Bot Features Overview
+
+| Feature                   | Discord | Telegram |
+|---------------------------|:-------:|:--------:|
+| 💬 Conversation           |   ✅    |    ✅    |
+| 🎰 Slots / Balance        |   ✅    |    ✅    |
+| 🖼️ Demotivator            |   ✅    |    ✅    |
+| 📷 Photo from Source      |   ❌    |    ✅    |
+| 📹 Video Filters for Clips|   ❌    |    ✅    |
+| 🧠 Auto Messages / Other  |   ✅    |    ✅    |
+| 📖 Menu / Help            |   ✅    |    ✅    |
 
 ---
 
