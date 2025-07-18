@@ -1,10 +1,10 @@
 <h1 align="center">Botyan — Kate Artivian</h1>
 <p align="center">
   <a href="https://github.com/TheAndreyZakharov/Botyan/blob/main/README.md">
-    <img src="https://img.shields.io/badge/README-English-blue">
+    <img src="https://img.shields.io/badge/README_Language-English-blue">
   </a>
   <a href="https://github.com/TheAndreyZakharov/Botyan/blob/main/README_RU.md">
-    <img src="https://img.shields.io/badge/README-Русский-brightgreen">
+    <img src="https://img.shields.io/badge/README_Language-Русский-brightgreen">
   </a>
 </p>
 
@@ -17,6 +17,9 @@
 
 - **Общение**  
   Поддерживает беседу, отвечает на сообщения и иногда сама вступает в диалог.
+
+- **Один собеседник для чатов**  
+  Kate Artivian — это единый персонаж для Telegram и Discord: бот запоминает всю историю общения в обоих мессенджерах. Можно начать разговор в Telegram, продолжить в Discord — и Kate всегда будет в курсе контекста.
 
 - **Слоты и баланс**  
   Мини-игра с виртуальной валютой: проверяй баланс и играй в слоты.

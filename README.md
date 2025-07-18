@@ -1,11 +1,12 @@
 <h1 align="center">Botyan — Kate Artivian</h1>
 <p align="center">
   <a href="https://github.com/TheAndreyZakharov/Botyan/blob/main/README.md">
-    <img src="https://img.shields.io/badge/README-English-brightgreen">
+    <img src="https://img.shields.io/badge/README_Language-English-brightgreen">
   </a>
   <a href="https://github.com/TheAndreyZakharov/Botyan/blob/main/README_RU.md">
-    <img src="https://img.shields.io/badge/README-Русский-blue">
+    <img src="https://img.shields.io/badge/README_Language-Русский-blue">
   </a>
+</p>
 
 **Botyan** is a cross-platform bot for Telegram and Discord, embodying the persona of Kate Artivian (*Kate Artivian*).  
 This bot was created for chatting, jokes, mini-games, demotivator generation, and fun in your chats.
@@ -16,6 +17,9 @@ This bot was created for chatting, jokes, mini-games, demotivator generation, an
 
 - **Conversation**  
   Engages in dialogue, replies to messages, and sometimes joins the chat on her own.
+
+- **One persona for your chats**  
+  Kate Artivian is a single character across both Telegram and Discord: the bot remembers your entire conversation history on both platforms. You can start a chat in Telegram, continue in Discord — and Kate will always keep track of the context.
 
 - **Slots and Balance**  
   Mini-game with virtual currency: check your balance and play slots.

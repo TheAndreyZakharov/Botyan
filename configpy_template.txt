@@ -15,6 +15,12 @@ ALLOWED_TG_CHAT_IDS = [
 ]
 ALLOWED_TG_USER_ID = your_profile_id
 
+CREATEP_TOP_URL = "url"
+
+STANDARD_SETS = [
+    "StickerSet1",
+    "StickerSet2"
+]
 
 OPENROUTER_API_KEYS = [
     "sk-or-v1-1",
