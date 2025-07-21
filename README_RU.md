@@ -1,10 +1,10 @@
 <h1 align="center">Botyan — Kate Artivian</h1>
 <p align="center">
-  <a href="https://github.com/TheAndreyZakharov/Botyan/blob/main/README.md">
-    <img src="https://img.shields.io/badge/README_Language-English-blue">
-  </a>
   <a href="https://github.com/TheAndreyZakharov/Botyan/blob/main/README_RU.md">
     <img src="https://img.shields.io/badge/README_Language-Русский-brightgreen">
+  </a>
+  <a href="https://github.com/TheAndreyZakharov/Botyan/blob/main/README.md">
+    <img src="https://img.shields.io/badge/README_Language-English-blue">
   </a>
 </p>
 
